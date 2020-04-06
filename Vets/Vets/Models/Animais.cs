@@ -30,7 +30,7 @@ namespace Vets.Models
         [ForeignKey("Dono")]
         public int DonoFK { get; set; } // Animais --> Donos
 
-        public Donos Dono { get; set; }
+        public Donos Dono { get; set; } //Reference Donos(ID)
 
         // lista de Consultas a que o Animal está associado
         public ICollection<Consultas> ListaConsultas { get; set; }
