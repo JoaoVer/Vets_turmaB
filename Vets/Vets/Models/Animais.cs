@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Vets.Models
 {
     public class Animais
-    {  
+    {
         public Animais()
         {
             ListaConsultas = new HashSet<Consultas>();
@@ -27,9 +23,8 @@ namespace Vets.Models
         public string Foto { get; set; }
 
         // FK para a 'tabela' dos Donos
-        [ForeignKey("Dono")]
+        [ForeignKey(nameof(Dono))]
         public int DonoFK { get; set; } // Animais --> Donos
-
         public Donos Dono { get; set; } //Reference Donos(ID)
 
         // lista de Consultas a que o Animal está associado
