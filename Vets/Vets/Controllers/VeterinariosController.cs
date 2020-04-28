@@ -25,6 +25,13 @@ namespace Vets.Controllers
             return View(await _context.Veterinarios.ToListAsync());
         }
 
+        // GET: Veterinarios/Details2/5
+        /// <summary>
+        /// Mostra os detalhes de um Veterinário
+        /// Se houverem 
+        /// </summary>
+        /// <param name="id">Identificador do Veterinario</param>
+        /// <returns></returns>
         // GET: Veterinarios/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -33,14 +40,54 @@ namespace Vets.Controllers
                 return NotFound();
             }
 
-            var veterinarios = await _context.Veterinarios
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (veterinarios == null)
+            // Os dados são gerados aqui
+            // SELECT * FROM Veterinários v, Animais a, Donos d, Consultas c
+            // WHERE c.AnimalFK = a.ID and
+            // c.VeterinarioFK = v.ID and
+            // a.DonoFK = d.ID
+            // v.ID = id
+
+            //acesso aos dados em modo 'Eager Loading'
+            var veterinario = await _context.Veterinarios
+                .Include(v=>v.Consultas)
+                .ThenInclude(a => a.Animal)
+                .ThenInclude(d=>d.Dono)
+                .FirstOrDefaultAsync(v => v.ID == id);
+
+            if (veterinario == null)
             {
                 return NotFound();
             }
 
-            return View(veterinarios);
+            return View(veterinario);
+        }
+
+        public async Task<IActionResult> Details2(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // Os dados são gerados aqui
+            // SELECT * FROM Veterinários v
+            // WHERE v.ID = id
+
+            //acesso aos dados em modo 'Lazy Loading'
+            var veterinario = await _context.Veterinarios.FirstOrDefaultAsync(v => v.ID == id);
+            // necessário adicionar o termo 'virtual' aos relacionamentos
+            // necessário adicionar um novo pacote (package)
+            // Install-Package Microsoft.EntityFrameworkCore.Proxies
+            //
+            // dar ordem ao programa para usar este serviço
+            // no ficheiro 'startup.cs' adicionar esta funcionalidade à BD
+
+            if (veterinario == null)
+            {
+                return NotFound();
+            }
+
+            return View(veterinario);
         }
 
         // GET: Veterinarios/Create

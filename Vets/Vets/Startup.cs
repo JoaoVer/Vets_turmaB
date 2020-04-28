@@ -26,7 +26,11 @@ namespace Vets {
          //****************************************************************************
          // especificação do 'tipo' e 'localização' da BD
          services.AddDbContext<VetsDB>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("ConnectionDB")));
+            options
+            .UseSqlServer(Configuration.GetConnectionString("ConnectionDB"))
+            .UseLazyLoadingProxies() //ativamos a opção do Lazy Loading
+            
+            );
          //****************************************************************************
 
       }

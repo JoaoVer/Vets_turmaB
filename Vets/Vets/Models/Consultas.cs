@@ -6,6 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace Vets.Models {
+    /// <summary>
+    /// Descrição das Consultas executadas por um veterinário a um Animal
+    /// </summary>
    public class Consultas {
 
       [Key]
@@ -24,7 +27,7 @@ namespace Vets.Models {
       // FK para Veterinários
       [ForeignKey(nameof(Veterinario))]
       public int VeterinarioFK { get; set; }  // Consulta ---> Veterinário
-      public Veterinarios Veterinario { get; set; }
+      public virtual Veterinarios Veterinario { get; set; }
 
    }
 }
